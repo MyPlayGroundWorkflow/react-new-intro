@@ -1,22 +1,20 @@
 import React from 'react'
 import './App.css'
-import {Route, Routes, BrowserRouter} from "react-router-dom";
-import Navbar from "./component/Navbar.tsx";
-import Home from "./page/Home.tsx";
-import About from "./page/About.tsx";
-import Contact from "./page/Contact.tsx";
-
+import CustomerForm from "./component/CustomerForm.tsx";
+import CustomerList from "./component/CustomerList.tsx";
 function App() {
 
     return (
-        <BrowserRouter>
-            <Navbar/>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/contact" element={<Contact/>}/>
-            </Routes>
-        </BrowserRouter>
+        <>
+            <h1>Customer Manage</h1>
+            <br/>
+            <br/>
+            <CustomerForm/>
+            <br/>
+            <br/>
+            <br/>
+            <CustomerList/>
+        </>
     )
 }
 
