@@ -1,32 +1,22 @@
-import React, { useState} from 'react'
+import React from 'react'
 import './App.css'
+import {Route, Routes, BrowserRouter} from "react-router-dom";
+import Navbar from "./component/Navbar.tsx";
+import Home from "./page/Home.tsx";
+import About from "./page/About.tsx";
+import Contact from "./page/Contact.tsx";
 
 function App() {
-    const [name, setName] = useState('');
-    const [printName, setPrintName] = useState('');
-
-    function handleInput() {
-        setPrintName(name)
-    }
-
 
     return (
-        <>
-            <h1>{name}</h1>
-
-            <input type="text" className="border border-gray-300"
-                   onChange={(e) => setName(e.target.value)}/>
-
-            <button
-                onClick={handleInput}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            > Print
-            </button>
-
-            <h2>{printName}</h2>
-
-
-        </>
+        <BrowserRouter>
+            <Navbar/>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/about" element={<About/>}/>
+                <Route path="/contact" element={<Contact/>}/>
+            </Routes>
+        </BrowserRouter>
     )
 }
 
