@@ -10,10 +10,8 @@ function App() {
             <br/>
             <br/>
             <CustomerForm/>
-            <br/>
-            <br/>
-            <br/>
-            <CustomerList/>
+
+
         </>
     )
 }
