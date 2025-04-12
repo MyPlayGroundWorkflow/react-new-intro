@@ -10,9 +10,14 @@ export interface Customer {
 
 const BASE_URL = 'http://localhost:3000/customers'
 
-const initialState = {
-    customers: []
+interface CustomerState {
+    customers: Customer[];
 }
+
+const initialState: CustomerState = {
+    customers: []
+};
+
 
 export const fetchCustomers = createAsyncThunk(
     'customer/fetchCustomers',
@@ -40,7 +45,7 @@ export const updateCustomer = createAsyncThunk(
     'customer/updateCustomer',
     async (customer: Customer, {rejectWithValue}) => {
         try {
-            const response = await axios.put(`http://localhost:3000/customers/${customer.id}`, customer);
+            const response = await axios.put(`${BASE_URL}/${customer.id}`, customer);
             return response.data
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to update customer');
@@ -51,7 +56,7 @@ export const deleteCustomer = createAsyncThunk(
     'customer/deleteCustomer',
     async (id: string, {rejectWithValue}) => {
         try {
-            await axios.delete(`http://localhost:3000/customers/${id}`);
+            await axios.delete(`${BASE_URL}/${id}`);
             return id
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to delete customer');
