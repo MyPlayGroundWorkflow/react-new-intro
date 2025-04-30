@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import { RootState } from '../store/store';
 import { Search, Plus, Edit, Trash2, X } from 'lucide-react';
+import {Customer, fetchCustomers} from "../store/slice/CustomerSlice.ts";
 
 const Customers: React.FC = () => {
+  const dispatch = useDispatch();
   const { customers } = useSelector((state: RootState) => state.customer);
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,6 +20,9 @@ const Customers: React.FC = () => {
   });
   const [isEditing, setIsEditing] = useState(false);
 
+  useEffect(() => {
+    dispatch(fetchCustomers() as any )
+  }, [dispatch]);
 
 
   const filteredCustomers = customers.filter(
@@ -27,7 +32,22 @@ const Customers: React.FC = () => {
           customer.telephone.includes(searchTerm)
   );
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (customer?: Customer) => {
+    if (customer) {
+      setCurrentCustomer(customer);
+      setIsEditing(true)
+    } else {
+      setCurrentCustomer({
+        _id: '',
+        name: '',
+        email: '',
+        telephone: '',
+        createdAt: '',
+        updatedAt: '',
+        __v: 0,
+      })
+      setIsEditing(false)
+    }
     setIsModalOpen(true);
   };
 
