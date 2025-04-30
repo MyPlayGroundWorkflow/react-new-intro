@@ -6,7 +6,7 @@ import cartSlice from "./slice/cartSlice.ts";
 import orderSlice from "./slice/orderSlice.ts";
 
 
-const store =
+export const store =
     configureStore({
     reducer: {
         auth: authSlice,
@@ -17,4 +17,4 @@ const store =
     }
 })
 
-export default store;
+export type RootState = ReturnType<typeof store.getState>

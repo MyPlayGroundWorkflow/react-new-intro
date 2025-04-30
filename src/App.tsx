@@ -1,18 +1,19 @@
 import React from 'react'
 import './App.css'
-import CustomerForm from "./component/CustomerForm.tsx";
-import CustomerList from "./component/CustomerList.tsx";
+import DashboardLayout from "./components/layouts/DashboardLayout.tsx";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Customers from "./pages/Customers.tsx";
 function App() {
 
     return (
-        <>
-            <h1>Customer Manage</h1>
-            <br/>
-            <br/>
-            <CustomerForm/>
-
-
-        </>
+            <Router>
+                <Routes>
+                    <Route element={<DashboardLayout />}>
+                        <Route path="/" element={<DashboardLayout />} />
+                        <Route path="/customers" element={<Customers />} />
+                    </Route>
+                </Routes>
+            </Router>
     )
 }
 

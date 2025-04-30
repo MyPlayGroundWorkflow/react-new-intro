@@ -12,7 +12,7 @@ const initialState: AuthState = {
     isAuthenticated: false,
 };
 
-const BASE_URL = 'http://localhost:3000/user'
+const BASE_URL = 'http://localhost:3000/users'
 
 export const login = createAsyncThunk(
     'auth/login',
