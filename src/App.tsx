@@ -1,32 +1,22 @@
-import React, { useState} from 'react'
+import React from 'react'
 import './App.css'
-
+import DashboardLayout from "./components/layouts/DashboardLayout.tsx";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Customers from "./pages/Customers.tsx";
+import Items from "./pages/Items.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
 function App() {
-    const [name, setName] = useState('');
-    const [printName, setPrintName] = useState('');
-
-    function handleInput() {
-        setPrintName(name)
-    }
-
 
     return (
-        <>
-            <h1>{name}</h1>
-
-            <input type="text" className="border border-gray-300"
-                   onChange={(e) => setName(e.target.value)}/>
-
-            <button
-                onClick={handleInput}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            > Print
-            </button>
-
-            <h2>{printName}</h2>
-
-
-        </>
+            <Router>
+                <Routes>
+                    <Route element={<DashboardLayout />}>
+                        <Route path="/" element={<Dashboard />} />
+                        <Route path="/customers" element={<Customers />} />
+                        <Route path="/items" element={<Items />} />
+                    </Route>
+                </Routes>
+            </Router>
     )
 }
 
