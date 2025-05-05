@@ -25,6 +25,7 @@ const BASE_URL = 'http://localhost:3000/items'
 export const fetchItems = createAsyncThunk('items/fetchItems', async (_, { rejectWithValue }) => {
     try {
         const response = await axios.get(BASE_URL);
+        console.log(response.data)
         return response.data;
     } catch (error: any) {
         return rejectWithValue(error.response?.data?.message || 'Failed to fetch items');
@@ -35,7 +36,7 @@ export const addItem = createAsyncThunk(
     'items/addItem',
     async (item: Omit<Item, 'id'>, { rejectWithValue }) => {
         try {
-            const response = await axios.post(BASE_URL);
+            const response = await axios.post(BASE_URL, item);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Failed to add item');
@@ -46,7 +47,7 @@ export const addItem = createAsyncThunk(
 export const updateItem = createAsyncThunk(
     'items/updateItem',
     async (item: Item, { rejectWithValue }) => {
-        try {const response = await axios.put(`${BASE_URL}/${item.id}`);
+        try {const response = await axios.put(`${BASE_URL}/${item._id}`, item);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Failed to update item');

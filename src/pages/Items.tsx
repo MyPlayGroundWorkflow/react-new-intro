@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store.ts';
 
 import {   Search,   Plus,   Edit,   Trash2,   X } from 'lucide-react';
-import {fetchItems} from "../store/slice/ItemSlice.ts";
+import {addItem, deleteItem, fetchItems, Item, updateItem} from "../store/slice/ItemSlice.ts";
 
 const Items: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,12 +29,33 @@ const Items: React.FC = () => {
       item.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (item?: Item) => {
+    if (item) {
+      setCurrentItem(item);
+      setIsEditing(true)
+    } else {
+      setCurrentItem({
+        name: '',
+        category: categories[0],
+        price: 0,
+        image: '',
+        remark: '',
+      })
+      setIsEditing(false)
+    }
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setCurrentItem({
+      name: '',
+      category: categories[0],
+      price: 0,
+      image: '',
+      remark: '',
+    })
+    setIsEditing(false)
   };
 
   const handleInputChange = (
@@ -50,12 +71,25 @@ const Items: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!currentItem.name || !currentItem.category || currentItem.price === undefined) {
+      alert("fill all")
+      return;
+    }
+
+    if (isEditing && currentItem._id) {
+      await dispatch(updateItem(currentItem as Item) as any)
+    } else {
+      await dispatch(addItem(currentItem as Item) as any)
+    }
+
     handleCloseModal();
   };
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
+      await dispatch(deleteItem(id) as any)
     }
+    dispatch(fetchItems() as any)
   };
 
   return (
