@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { RootState } from '../store/store';
 import { Search, Plus, Edit, Trash2, X } from 'lucide-react';
-import {Customer, fetchCustomers} from "../store/slice/CustomerSlice.ts";
+import {addCustomer, Customer, deleteCustomer, fetchCustomers, updateCustomer} from "../store/slice/CustomerSlice.ts";
 
 const Customers: React.FC = () => {
   const dispatch = useDispatch();
@@ -53,17 +53,40 @@ const Customers: React.FC = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setCurrentCustomer({
+      _id: '',
+      name: '',
+      email: '',
+      telephone: '',
+      createdAt: '',
+      updatedAt: '',
+      __v: 0,
+    })
+    setIsEditing(false)
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!currentCustomer.name || !currentCustomer.email || !currentCustomer.telephone ) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    if (isEditing && currentCustomer._id) {
+      await dispatch(updateCustomer(currentCustomer as Customer) as any);
+    } else {
+        await dispatch(addCustomer(currentCustomer) as any);
+    }
 
     handleCloseModal();
   };
 
   const handleDelete = async (_id: string) => {
     if (window.confirm('Are you sure you want to delete this customer?')) {
+      await dispatch(deleteCustomer(_id) as any);
     }
+    dispatch(fetchCustomers() as any )
   };
 
   return (

@@ -45,7 +45,7 @@ export const updateCustomer = createAsyncThunk(
     'customer/updateCustomer',
     async (customer: Customer, {rejectWithValue}) => {
         try {
-            const response = await axios.put(`${BASE_URL}/${customer.id}`, customer);
+            const response = await axios.put(`${BASE_URL}/${customer._id}`, customer);
             return response.data
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to update customer');
