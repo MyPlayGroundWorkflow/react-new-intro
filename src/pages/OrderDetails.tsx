@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {   ArrowLeft,   Package,   Truck,   CheckCircle,   XCircle } from 'lucide-react';
+import { RootState } from '../store/store.ts';
 
 const OrderDetails: React.FC = () => {
   const dispatch = useDispatch();
-  const { selectedOrder, loading } = useSelector((state: RootState) => state.orders);
+  const { selectedOrder } = useSelector((state: RootState) => state.orders);
   const [orderId, setOrderId] = useState<string | null>(null);
 
 
@@ -39,13 +40,6 @@ const OrderDetails: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-      </div>
-    );
-  }
 
   if (!selectedOrder) {
     return (
