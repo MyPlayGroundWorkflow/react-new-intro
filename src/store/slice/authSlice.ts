@@ -9,7 +9,7 @@ interface AuthState {
 
 const initialState: AuthState = {
     user: null,
-    isAuthenticated: false,
+    isAuthenticated: localStorage.getItem('user') ? true : false,
 };
 
 const BASE_URL = 'http://localhost:3000/users'
@@ -19,7 +19,6 @@ export const login = createAsyncThunk(
     async ({ email, password}: { email: string; password: string }, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${BASE_URL}/login`, { email, password });
-            localStorage.setItem('user', JSON.stringify(response.data.user));
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Failed to login');

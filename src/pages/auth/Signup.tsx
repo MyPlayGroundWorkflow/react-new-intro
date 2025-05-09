@@ -25,6 +25,8 @@ const Signup: React.FC = () => {
     setPasswordError('')
     const response = await dispatch(signup({ name, email, password }) as any);
     if (response.meta.requestStatus === 'fulfilled') {
+      const user = response.payload.email;
+      localStorage.setItem("user", user);
       // window.location.href = '/';
       navigate('/')
     } else {

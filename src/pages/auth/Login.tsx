@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import {Cake, Sofa} from 'lucide-react';
-import {useDispatch} from "react-redux";
-import {login} from "../../store/slice/authSlice.ts";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Cake, Sofa } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/slice/authSlice.ts";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -14,13 +14,16 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     const response = await dispatch(login({ email, password }) as any);
-    if (response.meta.requestStatus === 'fulfilled') {
-      // window.location.href = '/';
-      navigate('/')
-    } else {
-      alert('Failed to login');
-    }
 
+    if (response.meta.requestStatus === "fulfilled") {
+      console.log(response.payload);
+      // window.location.href = '/';
+      const user = response.payload.email;
+      localStorage.setItem("user", user);
+      navigate("/");
+    } else {
+      alert("Failed to login");
+    }
   };
 
   return (
@@ -78,14 +81,17 @@ const Login: React.FC = () => {
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-            Sign in
+              Sign in
             </button>
           </div>
 
           <div className="text-sm text-center">
             <p>
-              Don't have an account?{' '}
-              <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+              Don't have an account?{" "}
+              <Link
+                to="/signup"
+                className="font-medium text-indigo-600 hover:text-indigo-500"
+              >
                 Sign up
               </Link>
             </p>
