@@ -25,8 +25,8 @@ const Items: React.FC = () => {
 
   const filteredItems = items.filter(
     (item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchTerm.toLowerCase())
+      (item.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (item.category?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
 
   const handleOpenModal = (item?: Item) => {
@@ -83,6 +83,8 @@ const Items: React.FC = () => {
     }
 
     handleCloseModal();
+
+    await dispatch(fetchItems() as any)
   };
 
   const handleDelete = async (id: string) => {
@@ -131,7 +133,7 @@ const Items: React.FC = () => {
                 <div className="p-4">
                   <h3 className="text-lg font-medium text-gray-900">{item.name}</h3>
                   <p className="text-sm text-gray-500">{item.category}</p>
-                  <p className="text-lg font-bold text-gray-900 mt-2">LKR {item.price.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-gray-900 mt-2">LKR {item.price?.toFixed(2)}</p>
                   <p className="text-sm text-gray-600 mt-2 line-clamp-2">{item.remark}</p>
                   <div className="mt-4 flex justify-end space-x-2">
                     <button

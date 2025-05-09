@@ -28,18 +28,17 @@ const Orders: React.FC = () => {
   }, [dispatch]);
 
 
-
   const filteredOrders = orders.filter((order) => {
-    const customer = order.customerId?.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const orderId = order._id.toLowerCase().includes(searchTerm.toLowerCase());
-    const date = new Date(order.date).toLocaleDateString().includes(searchTerm);
+    const customer = (order.customerId?.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) || '';
+    const orderId = (order._id?.toLowerCase() || '').includes(searchTerm.toLowerCase()) || '';
+    const date = (new Date(order.date).toLocaleDateString() || '').includes(searchTerm) || '';
     return customer || orderId || date;
   });
 
   const filteredItems = items.filter(
       (item) =>
-          item.name.toLowerCase().includes(searchItemTerm.toLowerCase()) ||
-          item.category.toLowerCase().includes(searchItemTerm.toLowerCase())
+          (item.name?.toLowerCase() || '').includes(searchItemTerm.toLowerCase()) ||
+          (item.category?.toLowerCase() || '').includes(searchItemTerm.toLowerCase())
   );
 
   const handleAddToCart = (item: Item) => {
@@ -92,6 +91,8 @@ const Orders: React.FC = () => {
       alert('Order created successfully');
       dispatch(clearCart())
       setIsCartOpen(false)
+
+      await dispatch(fetchOrders() as any)
 
     } catch (error) {
       console.error(error)

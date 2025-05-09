@@ -27,9 +27,9 @@ const Customers: React.FC = () => {
 
   const filteredCustomers = customers.filter(
       (customer) =>
-          customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          customer.telephone.includes(searchTerm)
+          (customer.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+          (customer.email?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+          (customer.telephone || '').includes(searchTerm)
   );
 
   const handleOpenModal = (customer?: Customer) => {
@@ -80,6 +80,8 @@ const Customers: React.FC = () => {
     }
 
     handleCloseModal();
+
+    await dispatch(fetchCustomers() as any )
   };
 
   const handleDelete = async (_id: string) => {

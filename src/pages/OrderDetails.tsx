@@ -2,12 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {   ArrowLeft,   Package,   Truck,   CheckCircle,   XCircle } from 'lucide-react';
 import { RootState } from '../store/store.ts';
+import { fetchOrderById } from '../store/slice/orderSlice.ts';
 
 const OrderDetails: React.FC = () => {
   const dispatch = useDispatch();
   const { selectedOrder } = useSelector((state: RootState) => state.orders);
   const [orderId, setOrderId] = useState<string | null>(null);
 
+  useEffect(() => {
+    const parms = new URLSearchParams(location.search);
+    const id = parms.get('id');
+    setOrderId(id);
+
+    if (id) {
+      dispatch(fetchOrderById(id) as any)
+    }
+    
+  }, [dispatch, orderId])
 
 
   const handleStatusChange = async (status) => {
